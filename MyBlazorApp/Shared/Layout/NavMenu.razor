@@ -1,0 +1,39 @@
+﻿<MudDrawerHeader>
+    <div class="d-flex align-center gap-2">
+        <MudImage Src="img/accelerate.svg" Width="30"/>
+        <MudText Typo="Typo.h5">Application</MudText>
+    </div>
+</MudDrawerHeader>
+
+<div class="mt-2">
+    <MudNavMenu Color="Color.Info" Bordered="true" Margin="Margin.Dense" Class="mud-width-full gap-1">
+        <MudNavLink Match="NavLinkMatch.All" 
+                    Href="/" 
+                    Icon="@Icons.Material.Outlined.Dashboard">
+                    Dashboard
+        </MudNavLink>
+
+        <MudText Class="mt-4 ml-4 mb-1" Style="font-size: 12px;">General</MudText>
+        
+        <MudNavLink Match="NavLinkMatch.All"
+                    Href="/tickets"
+                    Icon="@Icons.Material.Outlined.Dashboard">
+                    Tickets
+        </MudNavLink>
+
+        <MudText Class="mt-4 ml-4 mb-1" Style="font-size: 12px;">Other Tools</MudText>
+
+        <MudNavGroup Title="Misc" Expanded="false">
+            <MudNavLink Match="NavLinkMatch.Prefix"
+                        Href="/weather"
+                        Icon="@Icons.Material.Outlined.Cloud">
+                Weather
+            </MudNavLink>
+            <MudNavLink Match="NavLinkMatch.Prefix"
+                        Href="/counter"
+                        Icon="@Icons.Material.Outlined.AccessTime">
+                Counter
+            </MudNavLink>
+        </MudNavGroup>
+    </MudNavMenu>
+</div>
