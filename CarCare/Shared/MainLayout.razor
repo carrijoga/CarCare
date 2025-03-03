@@ -1,0 +1,82 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
+<MudPopoverProvider />
+<MudDialogProvider CloseButton="false" />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1">
+        @* <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /> *@
+        <NavUpper OnToggleDarkMode="ToggleDarkMode" />
+    </MudAppBar>
+    <MudDrawer Open="true" Elevation="2">
+        <NavMenu />
+    </MudDrawer>
+    <div class="container-fluid p-4">
+        <MudMainContent>
+            @Body
+        </MudMainContent>
+    </div>
+</MudLayout>
+
+@code {
+    #region Inject
+
+    [Inject]
+    protected IJSRuntime Js { get; set; }
+
+    #endregion
+
+    #region Properties
+
+    bool _drawerOpen = true;
+    bool _isDarkMode = false;
+
+    #endregion
+
+    #region Methods
+
+    private async Task ToggleDarkMode()
+    {
+        _isDarkMode = !_isDarkMode;
+        await Js.InvokeVoidAsync("localStorage.setItem", "isDarkMode", _isDarkMode.ToString());
+    }
+
+    void DrawerToggle() =>
+        _drawerOpen = !_drawerOpen;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var isDarkModeString = await Js.InvokeAsync<string>("localStorage.getItem", "isDarkMode");
+        if (bool.TryParse(isDarkModeString, out var isDarkMode))
+        {
+            _isDarkMode = isDarkMode;
+        }
+
+        _theme = _defaultTheme;
+    }
+
+    #endregion
+
+    #region Theme
+
+    MudTheme _theme = new MudTheme();
+
+    MudTheme _defaultTheme = new MudTheme()
+        {
+            PaletteLight = new PaletteLight()
+            {
+                AppbarBackground = "#004647",
+                AppbarText = Colors.Shades.White,
+
+                Primary = Colors.Cyan.Darken4,
+                Secondary = Colors.Cyan.Darken1,
+
+                Tertiary = "#377D7D",
+                Surface = "#FFFFFF"
+            }
+        };
+
+    #endregion
+}
